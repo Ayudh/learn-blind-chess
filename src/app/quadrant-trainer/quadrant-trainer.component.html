@@ -1,0 +1,75 @@
+<div class="container">  
+  <div *ngIf="!selectedQuadrant()" class="menu">
+    <h2>Select a Quadrant to Master</h2>
+    <div class="quadrant-selector">
+      <button (click)="selectQuadrant('TL')">Top Left</button>
+      <button (click)="selectQuadrant('TR')">Top Right</button>
+      <button (click)="selectQuadrant('BL')">Bottom Left</button>
+      <button (click)="selectQuadrant('BR')">Bottom Right</button>
+    </div>
+    <button (click)="selectQuadrant('ALL')" class="full-board">Practice Full Board</button>
+  </div>
+
+  <div *ngIf="selectedQuadrant() && !currentActivity()" class="menu">
+    <h2>Choose Your Challenge</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Quadrant: {{ selectedQuadrant() }}</p>
+    <button (click)="startActivity('GRID')">Grid Visualization</button>
+    <button (click)="startActivity('TEXT')">Coordinate Mastery</button>
+    <button (click)="startActivity('PAIR')">Color Pairs</button>
+    <button (click)="selectedQuadrant.set(null)" class="back">Change Quadrant</button>
+  </div>
+
+  <div *ngIf="currentActivity()" class="activity-area">
+    <div class="header">
+      <button (click)="currentActivity.set(null)" class="back" style="margin:0; padding: 0.5rem 1rem; font-size: 1rem;">← Back</button>
+      <h2 *ngIf="currentActivity() === 'GRID'">Visual Memory</h2>
+      <h2 *ngIf="currentActivity() === 'TEXT'">Coordinate Recall</h2>
+      <h2 *ngIf="currentActivity() === 'PAIR'">Color Connection</h2>
+      <div class="score-board">Score: {{ score() }}</div>
+    </div>
+    
+
+    <div class="feedback" [class.correct]="feedback() === 'Correct!'" [class.wrong]="feedback() === 'Wrong!'">
+      {{ feedback() }}
+    </div>
+
+    <!-- GRID ACTIVITY -->
+    <div *ngIf="currentActivity() === 'GRID'" class="grid-container">
+      <div *ngFor="let row of getGridRows()" class="row">
+        <div *ngFor="let coord of row" 
+             class="cell" 
+             [class.active]="coord === activeCell()"
+             [class.in-quadrant]="isInQuadrant(coord)">
+             <!-- Optional: Show coord for debugging or learning? No, blind chess. -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TEXT ACTIVITY -->
+    <div *ngIf="currentActivity() === 'TEXT'" class="text-challenge">
+      <div class="big-text">{{ currentCoordinate() }}</div>
+    </div>
+
+    <!-- PAIR ACTIVITY -->
+    <div *ngIf="currentActivity() === 'PAIR'" class="pair-challenge">
+      <div class="big-text">{{ pairCoordinates()?.c1 }}</div>
+      <div class="big-text">{{ pairCoordinates()?.c2 }}</div>
+    </div>
+
+    <!-- UI CONTROLS -->
+    <div class="controls">
+      <ng-container *ngIf="currentActivity() !== 'PAIR'">
+        <button class="control-btn" (click)="handleInput('LEFT')">Dark</button>
+        <button class="control-btn" (click)="handleInput('RIGHT')">Light</button>
+      </ng-container>
+      <ng-container *ngIf="currentActivity() === 'PAIR'">
+        <button class="control-btn" (click)="handleInput('LEFT')">Same Color =</button>
+        <button class="control-btn" (click)="handleInput('RIGHT')">Different ≠</button>
+      </ng-container>
+    </div>
+    
+    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
+      Use <strong>Left/Right Arrow Keys</strong> or click the buttons above.
+    </p>
+  </div>
+</div>
