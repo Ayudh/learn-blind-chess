@@ -1,0 +1,13 @@
+:root {
+  --header-height: 60px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: auto;
+  }
+  
+  body {
+    font-size: 14px;
+  }
+}

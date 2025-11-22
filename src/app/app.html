@@ -1,6 +1,56 @@
 
-<nav style="padding: 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem; display: flex; align-items: center; position: relative;">
-  <div style="position: absolute; left: 50%; transform: translateX(-50%); font-weight: bold; font-size: 1.5rem;">Blind Chess Trainer</div>
-  <a routerLink="/quadrant-trainer" style="margin-left: auto; color: var(--primary-color); text-decoration: none; font-weight: bold; font-size: 1.2rem; border-bottom: 2px solid transparent; transition: border-color 0.3s;">Quadrant Trainer</a>
+<nav class="app-nav">
+  <div class="nav-title">Blind Chess Trainer</div>
+  <a routerLink="/quadrant-trainer" class="nav-link">Quadrant Trainer</a>
 </nav>
+
+<style>
+.app-nav {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-height: var(--header-height);
+}
+
+.nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+  font-size: 1.5rem;
+  white-space: nowrap;
+}
+
+.nav-link {
+  margin-left: auto;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.3s;
+}
+
+@media (max-width: 768px) {
+  .app-nav {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .nav-title {
+    position: static;
+    transform: none;
+    font-size: 1.2rem;
+  }
+
+  .nav-link {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
+</style>
 <router-outlet />
